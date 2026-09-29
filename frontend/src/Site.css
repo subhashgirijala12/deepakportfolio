@@ -1,0 +1,30 @@
+.page { position: relative; min-height: 100vh; isolation: isolate; }
+.backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: var(--paper); }
+.page > header, .page > main, .page > footer { position: relative; z-index: 1; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 30; transform: translateY(-150%); padding: 10px 14px; background: var(--ink); color: white; }
+.skip-link:focus { transform: translateY(0); }
+.nav { position: sticky; top: 0; z-index: 20; width: 100%; min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 12px max(32px, calc((100vw - 1180px) / 2)); background: rgba(253, 253, 253, .96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+.brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; flex: none; }
+.brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--green); color: var(--green); font-family: Georgia, serif; font-size: 1.35rem; font-weight: 500; }
+.brand-name { display: grid; color: var(--ink); font-size: .92rem; font-weight: 650; line-height: 1.3; }
+.brand-name span { color: var(--muted); font-size: .59rem; font-weight: 650; letter-spacing: .13em; }
+.nav nav { display: flex; justify-content: flex-end; gap: 4px; }
+.nav nav a { position: relative; padding: 8px 10px; color: var(--body); text-decoration: none; font-size: .8rem; transition: color .18s ease; }
+.nav nav a::after { position: absolute; right: 10px; bottom: 3px; left: 10px; height: 1px; background: var(--orange); content: ""; transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
+.nav nav a:hover { color: var(--green); }
+.nav nav a:hover::after { transform: scaleX(1); }
+.footer { max-width: 1180px; margin: 104px auto 0; padding: 24px 32px 38px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; color: var(--muted); border-top: 1px solid var(--line); font-size: .85rem; }
+.footer p { margin: 0; }
+.footer div { display: flex; flex-wrap: wrap; gap: 22px; }
+.footer a { text-decoration: none; }
+.footer a:hover { color: var(--green); text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 900px) {
+  .nav { align-items: flex-start; flex-direction: column; gap: 10px; padding: 12px 24px 0; }
+  .nav nav { width: 100%; justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; }
+  .nav nav a { flex: none; }
+}
+@media (max-width: 560px) {
+  .nav { padding-inline: 18px; }
+  .footer { margin-top: 72px; padding-inline: 18px; }
+  .footer div { gap: 14px; }
+}
