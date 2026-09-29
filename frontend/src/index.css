@@ -13,6 +13,21 @@
   --shadow: 0 18px 50px rgba(10, 9, 9, .055);
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #111110;
+  --surface: #1b1a19;
+  --ink: #f3f1ee;
+  --body: #d0ccc7;
+  --muted: #aaa49e;
+  --green: #c9a38f;
+  --green-dark: #dfbca8;
+  --green-wash: #292421;
+  --orange: #c89e86;
+  --line: #393633;
+  --shadow: 0 18px 50px rgba(0, 0, 0, .24);
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 body {
@@ -23,6 +38,7 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition: background-color .24s ease, color .24s ease;
 }
 body, button, a { -webkit-tap-highlight-color: transparent; }
 a { color: inherit; }

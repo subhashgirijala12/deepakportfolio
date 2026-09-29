@@ -1,6 +1,6 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
-import { FaLinkedin, FaGithub, FaEnvelope, FaPhone, FaDownload, FaCode, FaDesktop, FaServer, FaDatabase, FaCloud, FaShieldAlt, FaArrowRight, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaEnvelope, FaPhone, FaDownload, FaCode, FaDesktop, FaServer, FaDatabase, FaCloud, FaShieldAlt, FaInstagram } from 'react-icons/fa';
 import { Footer, Backdrop, EMAIL } from './Site';
 import { AnimatedTopDock } from './assets/AnimatedTopDock';
 import { createTopDockController } from './assets/topDockController';
@@ -192,6 +192,19 @@ const Section = ({ id, title, description, eyebrow, centered = false, repeat = f
 
 export default function Home() {
   const [nameSwap, setNameSwap] = useState(false);
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = window.localStorage.getItem('portfolio-theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  useLayoutEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -210,6 +223,16 @@ export default function Home() {
           heightGrowth={16}
           drop={3.5}
         />
+        <button
+          className="theme-toggle"
+          type="button"
+          onClick={() => setTheme((current) => current === 'light' ? 'dark' : 'light')}
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+          aria-pressed={theme === 'dark'}
+        >
+          <span className="theme-toggle-indicator" aria-hidden="true" />
+          <span>{theme === 'light' ? 'Dark mode' : 'Light mode'}</span>
+        </button>
       </div>
       <main id="main-content" className="portfolio-main">
         <section className="hero">
@@ -283,7 +306,6 @@ export default function Home() {
                 <div className="tool-card-top">
                   <span className={`tool-icon ${accent}`}><Icon aria-hidden="true" /></span>
                   <div className="tool-title"><h3>{name}</h3><p>{toolDescription}</p></div>
-                  <FaArrowRight className="tool-arrow" aria-hidden="true" />
                 </div>
                 <div className="tool-tags">{tools.map((tool) => <span className="tag" key={tool}>{tool}</span>)}</div>
               </motion.article>
@@ -291,14 +313,13 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="education" title="Education" description="B.Tech in Computer Science and Engineering, graduated 2025.">
+        <Section id="education" title="Education" description="My academic foundation in computer science and engineering.">
           <motion.div className="stack" variants={sequence}>
             {education.map(([deg, school, years, grade]) => (
               <motion.article key={deg} className="card education-card" variants={liftIn} style={{ transformPerspective: 1000 }} whileHover={cardHover} transition={springHover}>
-                <div><h3>{deg}</h3>
-                <p>{school}</p>
-                <p className="job-date">{years}</p></div>
-                <span className="education-grade">{grade}</span>
+                <div className="education-year"><span>Graduated</span><strong>{years.replace('Graduated ', '')}</strong></div>
+                <div className="education-details"><span className="education-level">BACHELOR'S DEGREE</span><h3>{deg}</h3><p>{school}</p></div>
+                <div className="education-result"><strong className="education-grade">{grade}</strong><span>Result</span></div>
               </motion.article>
             ))}
           </motion.div>
