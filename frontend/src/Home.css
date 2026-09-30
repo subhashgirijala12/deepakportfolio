@@ -608,6 +608,46 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 :root[data-theme="dark"] .portfolio-page .prose { border-left-color: #bd927b; }
 :root[data-theme="dark"] .portfolio-page .tool-card { border-color: #3b3835; background: #1b1a19; }
 :root[data-theme="dark"] .portfolio-page .tool-title h3 { color: #f0eeeb; }
+
+/* Quiet dual video texture behind the hero, with a strong wash to protect text contrast. */
+.portfolio-page .hero { isolation: isolate; }
+.hero-video-backdrop { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;
+  opacity: .62; filter: saturate(.82) contrast(.96);
+}
+.hero-video-wash {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(253,253,253,.58), rgba(253,253,253,.52) 48%, rgba(253,253,253,.58));
+}
+:root[data-theme="dark"] .hero-video-wash {
+  background: linear-gradient(90deg, rgba(21,21,20,.62), rgba(21,21,20,.56) 48%, rgba(21,21,20,.62));
+}
+@media (max-width: 900px) {
+  .hero-video { opacity: .58; }
+  .hero-video-wash { background: rgba(253,253,253,.56); }
+  :root[data-theme="dark"] .hero-video-wash { background: rgba(21,21,20,.60); }
+}
+.portfolio-page #skills { position: relative; isolation: isolate; overflow: hidden; }
+.portfolio-page #contact { position: relative; isolation: isolate; overflow: hidden; }
+.section-video-backdrop { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
+.section-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .58; filter: saturate(.82) contrast(.96); }
+.section-video-wash { position: absolute; inset: 0; background: rgba(245,243,240,.62); }
+.portfolio-page #skills .section-heading,
+.portfolio-page #skills .section-content,
+.portfolio-page #contact .section-heading,
+.portfolio-page #contact .section-content { position: relative; z-index: 1; }
+:root[data-theme="dark"] .portfolio-page #skills .section-video-wash { background: rgba(21,21,20,.67); }
+.portfolio-page #contact .section-video-wash { background: rgba(245,243,240,.52); }
+.portfolio-page #contact .contact-console { background: rgba(17,17,17,.84); }
+:root[data-theme="dark"] .portfolio-page #contact .section-video-wash { background: rgba(21,21,20,.62); }
+@media (max-width: 900px) {
+  .section-video { opacity: .56; }
+  .section-video-wash { background: rgba(245,243,240,.66); }
+  :root[data-theme="dark"] .portfolio-page #skills .section-video-wash { background: rgba(21,21,20,.70); }
+  .portfolio-page #contact .section-video-wash { background: rgba(245,243,240,.58); }
+  :root[data-theme="dark"] .portfolio-page #contact .section-video-wash { background: rgba(21,21,20,.66); }
+}
 :root[data-theme="dark"] .portfolio-page .tool-title p { color: #b9b3ad; }
 :root[data-theme="dark"] .portfolio-page .tool-tags { border-color: #393633; }
 :root[data-theme="dark"] .portfolio-page .tool-tags .tag { border-color: #4a4642; color: #d1cbc5; }

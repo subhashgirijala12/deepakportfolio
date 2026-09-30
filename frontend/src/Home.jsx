@@ -172,7 +172,7 @@ function OpeningLoader() {
   );
 }
 
-const Section = ({ id, title, description, eyebrow, centered = false, repeat = false, children }) => (
+const Section = ({ id, title, description, eyebrow, centered = false, repeat = false, backgroundVideo, children }) => (
   <motion.section
     id={id}
     className={`section${centered ? ' section-centered' : ''}`}
@@ -181,6 +181,14 @@ const Section = ({ id, title, description, eyebrow, centered = false, repeat = f
     whileInView="show"
     viewport={{ once: !repeat, amount: 0.16, margin: '0px 0px -32px 0px' }}
   >
+    {backgroundVideo && (
+      <div className="section-video-backdrop" aria-hidden="true">
+        <video className="section-video" autoPlay muted loop playsInline preload="metadata" tabIndex={-1}>
+          <source src={backgroundVideo} type="video/mp4" />
+        </video>
+        <span className="section-video-wash" />
+      </div>
+    )}
     <motion.div className="section-heading" variants={sequence}>
       {eyebrow && <motion.p className="section-eyebrow" variants={liftIn}>{eyebrow}</motion.p>}
       <motion.h2 variants={liftIn}>{title}</motion.h2>
@@ -236,6 +244,12 @@ export default function Home() {
       </div>
       <main id="main-content" className="portfolio-main">
         <section className="hero">
+          <div className="hero-video-backdrop" aria-hidden="true">
+            <video className="hero-video" autoPlay muted loop playsInline preload="metadata" tabIndex={-1}>
+              <source src="/121885-724720140_medium.mp4" type="video/mp4" />
+            </video>
+            <span className="hero-video-wash" />
+          </div>
           <motion.h1 className="hero-name" variants={sequence} initial="hidden" animate="show" aria-label="Deepak Girijala" onMouseLeave={() => setNameSwap(false)}>
             <motion.span className={`name-outline${nameSwap ? ' name-swap-filled' : ''}`} variants={liftIn} onMouseEnter={() => setNameSwap(true)}>DEEPAK</motion.span>
             <motion.span className={`name-solid${nameSwap ? ' name-swap-outline' : ''}`} variants={liftIn} onMouseEnter={() => setNameSwap(true)}>GIRIJALA</motion.span>
@@ -299,7 +313,7 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="skills" title="Tools I work with" description="Technologies and practices used across my development work." eyebrow="Tools" centered repeat>
+        <Section id="skills" title="Tools I work with" description="Technologies and practices used across my development work." eyebrow="Tools" centered repeat backgroundVideo="/17076-278405108_medium.mp4">
           <motion.div className="grid three tools-grid" variants={sequence}>
             {skills.map(({ name, description: toolDescription, Icon, accent, tools }) => (
               <motion.article key={name} className="tool-card" variants={toolReveal} whileHover={{ y: -4 }} transition={springHover}>
@@ -325,7 +339,7 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="contact" title="Let's Connect" description="Have a project or engineering problem in mind? Choose a channel and reach out.">
+        <Section id="contact" title="Let's Connect" description="Have a project or engineering problem in mind? Choose a channel and reach out." backgroundVideo="/119290-717347154_medium.mp4">
           <motion.div className="contact-console" variants={liftIn}>
             <div className="contact-console-heading">
               <span className="contact-console-kicker">CONTACT / HYDERABAD, INDIA</span>
