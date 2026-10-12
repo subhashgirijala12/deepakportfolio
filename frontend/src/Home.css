@@ -486,13 +486,44 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
 .contact-channel-copy > span { font-size: .88rem; font-weight: 600; }
 .contact-channel-copy small { overflow: hidden; color: #a8a49e; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
 .contact-channel-arrow { margin-left: auto; color: #aaa7a2; font-size: 1.1rem; }
+.contact-inquiry { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr); align-items: start; gap: 28px clamp(28px, 6vw, 76px); padding-top: 30px; border-top: 1px solid #393837; }
+.contact-inquiry-heading h4 { margin: 12px 0 8px; color: #f7f6f3; font: 400 clamp(1.45rem, 2.4vw, 2rem)/1.12 Georgia, "Times New Roman", serif; letter-spacing: -.025em; }
+.contact-inquiry-heading p { margin: 0; color: #b7b4af; font-size: .84rem; line-height: 1.65; }
+.contact-form { display: grid; gap: 16px; }
+.contact-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.contact-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.contact-form label { display: grid; gap: 7px; color: #d5d1cb; font-size: .76rem; font-weight: 600; }
+.contact-form input, .contact-form textarea { width: 100%; min-width: 0; border: 1px solid #45423f; border-radius: 4px; padding: 12px 13px; background: #191919; color: #f7f6f3; font: inherit; font-size: .84rem; outline: none; transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease; }
+.contact-form input { min-height: 44px; }
+.contact-form textarea { min-height: 112px; resize: vertical; line-height: 1.55; }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: #89857f; }
+.contact-form input:focus, .contact-form textarea:focus { border-color: #d3b9a4; background: #201f1e; box-shadow: 0 0 0 3px rgba(211,185,164,.12); }
+.contact-message-field { grid-column: 1 / -1; }
+.contact-submit { display: inline-flex; align-items: center; justify-content: center; gap: 14px; justify-self: start; min-height: 46px; min-width: 154px; padding: 0 17px; border: 1px solid #d3b9a4; border-radius: 4px; background: #d3b9a4; color: #181614; font: inherit; font-size: .84rem; font-weight: 700; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.contact-submit:hover:not(:disabled) { transform: translateY(-2px); background: #e5d3c4; }
+.contact-submit:focus-visible, .contact-reset:focus-visible { outline: 2px solid #f7f6f3; outline-offset: 3px; }
+.contact-submit:disabled { cursor: wait; opacity: .8; }
+.contact-submit-arrow { display: inline-block; font-size: 1.1rem; }
+.contact-form-error { margin: 0; color: #ffb8ab; font-size: .82rem; }
+.contact-sent { display: flex; min-height: 260px; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; border: 1px solid #45423f; border-radius: 5px; background: radial-gradient(ellipse at 50% 0%, rgba(211,185,164,.14), transparent 68%), #191919; text-align: center; }
+.contact-sent-mark { display: grid; width: 54px; height: 54px; place-items: center; margin-bottom: 4px; border: 1px solid #d3b9a4; border-radius: 50%; color: #e5cdb9; font-size: 1.5rem; box-shadow: 0 0 34px rgba(211,185,164,.16); }
+.contact-sent-title { color: #f7f6f3; font: 400 1.55rem/1.2 Georgia, "Times New Roman", serif; }
+.contact-sent-copy { color: #b7b4af; font-size: .86rem; }
+.contact-reset { margin-top: 7px; padding: 7px 10px; border: 0; background: none; color: #e5cdb9; font: inherit; font-size: .8rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (max-width: 760px) {
   .portfolio-page .contact-console { grid-template-columns: 1fr; gap: 30px; }
+  .contact-inquiry { grid-template-columns: 1fr; gap: 22px; }
 }
 @media (max-width: 420px) {
   .portfolio-page .contact-console { padding: 24px 18px; }
   .contact-channel { gap: 10px; padding: 0 11px; }
   .contact-channel-copy small { font-size: .65rem; }
+  .contact-form-grid { grid-template-columns: 1fr; }
+  .contact-message-field { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form input, .contact-form textarea, .contact-submit { transition: none; }
 }
 
 .portfolio-page .hero-name .name-outline,
@@ -701,4 +732,69 @@ main { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
   .portfolio-page .education-details h3 { font-size: 1rem; }
   .portfolio-page .education-details p { font-size: .82rem; }
   :root[data-theme="dark"] .education-year { border-color: #45403b; }
+}
+
+/* Responsive refinements for compact phones, large phones, and tablets. */
+@media (min-width: 621px) and (max-width: 1024px) {
+  .portfolio-page #skills .grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(18px, 3vw, 30px);
+  }
+
+  .portfolio-page .tool-card { padding: 24px 20px 20px; }
+}
+
+@media (max-width: 620px) {
+  .portfolio-page .section { padding-inline: clamp(18px, 5vw, 28px); }
+  .portfolio-page .section-heading { min-width: 0; }
+  .portfolio-page .section-heading h2,
+  .portfolio-page .section-heading p { overflow-wrap: anywhere; }
+  .portfolio-page #skills .grid.three {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .portfolio-page .tool-card { padding: 22px 18px 20px; }
+  .portfolio-page .tool-card-top {
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 14px;
+    min-height: 0;
+  }
+  .portfolio-page .tool-icon { width: 52px; height: 52px; font-size: 1.3rem; }
+  .portfolio-page .tool-title,
+  .portfolio-page .tool-title h3,
+  .portfolio-page .tool-title p { min-width: 0; overflow-wrap: anywhere; }
+  .portfolio-page .tool-title h3 { font-size: 1rem; line-height: 1.35; }
+  .portfolio-page .tool-title p { font-size: .9rem; line-height: 1.55; }
+  .portfolio-page .tool-tags { gap: 7px; }
+  .portfolio-page .tool-tags .tag { padding: 7px 9px; line-height: 1.35; }
+
+  .portfolio-page .shader-frame { height: 72px; }
+  .portfolio-page .shader-frame .animated-top-dock__nav {
+    width: calc(100% - 126px);
+    gap: 4px;
+    height: 42px;
+    padding: 0 2px;
+  }
+  .portfolio-page .shader-frame .animated-top-dock__item {
+    flex: 0 0 auto;
+    min-width: 34px;
+    height: 34px !important;
+  }
+  .portfolio-page .shader-frame .animated-top-dock__logo {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  .portfolio-page .shader-frame .animated-top-dock__link {
+    padding-inline: 7px;
+    font-size: 8px;
+    letter-spacing: .02em;
+  }
+  .portfolio-page .theme-toggle { min-height: 38px; }
+}
+
+@media (max-width: 360px) {
+  .portfolio-page .shader-frame .animated-top-dock__nav { width: calc(100% - 112px); left: 7px; }
+  .portfolio-page .shader-frame .animated-top-dock__link { padding-inline: 5px; font-size: 7px; }
+  .portfolio-page .theme-toggle { right: 7px; padding-inline: 6px; font-size: .62rem; }
+  .portfolio-page .tool-card { padding-inline: 15px; }
 }

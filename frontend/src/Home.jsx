@@ -76,6 +76,71 @@ const toolReveal = {
   show: { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.72, ease: [0.22, 0.61, 0.36, 1] } },
 };
 
+function ContactInquiry() {
+  const [status, setStatus] = useState('idle');
+  const [error, setError] = useState('');
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (status === 'sending') return;
+    setStatus('sending');
+    setError('');
+
+    const form = event.currentTarget;
+    const fields = Object.fromEntries(new FormData(form).entries());
+    try {
+      const backendUrl = (process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001').replace(/\/$/, '');
+      const response = await fetch(`${backendUrl}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fields),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'The message could not be sent. Please try again.');
+      form.reset();
+      setStatus('sent');
+    } catch (submitError) {
+      setStatus('error');
+      setError(submitError.message || 'The message could not be sent. Please try again.');
+    }
+  }
+
+  return (
+    <div className="contact-inquiry">
+      <div className="contact-inquiry-heading">
+        <span className="contact-console-kicker">SEND AN INQUIRY</span>
+        <h4>Tell me what you have in mind.</h4>
+        <p>Every field is optional. Your message will be emailed directly to me.</p>
+      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        {status === 'sent' ? (
+          <motion.div className="contact-sent" key="sent" role="status" initial={{ opacity: 0, y: 18, scale: .96 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: .45, ease: [0.22, 0.61, 0.36, 1] }}>
+            <motion.span className="contact-sent-mark" aria-hidden="true" initial={{ scale: 0, rotate: -35 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', stiffness: 230, damping: 15, delay: .12 }}>✓</motion.span>
+            <span className="contact-sent-title">Message sent</span>
+            <span className="contact-sent-copy">Thanks for reaching out. I’ll be in touch.</span>
+            <button className="contact-reset" type="button" onClick={() => setStatus('idle')}>Send another</button>
+          </motion.div>
+        ) : (
+          <motion.form className="contact-form" key="form" onSubmit={handleSubmit} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: .24 }}>
+            <label className="contact-honeypot" aria-hidden="true">Website<input name="website" type="text" tabIndex="-1" autoComplete="off" /></label>
+            <div className="contact-form-grid">
+              <label>Name<input name="name" type="text" autoComplete="name" maxLength="120" placeholder="Your name" /></label>
+              <label>Email<input name="email" type="email" autoComplete="email" maxLength="254" placeholder="you@example.com" /></label>
+              <label>Phone<input name="phone" type="tel" autoComplete="tel" maxLength="40" placeholder="Your phone number" /></label>
+              <label className="contact-message-field">Query message<textarea name="message" rows="4" maxLength="5000" placeholder="What would you like to discuss?" /></label>
+            </div>
+            {error && <p className="contact-form-error" role="alert">{error}</p>}
+            <button className="contact-submit" type="submit" disabled={status === 'sending'}>
+              <span>{status === 'sending' ? 'Sending' : 'Send inquiry'}</span>
+              <motion.span className="contact-submit-arrow" aria-hidden="true" animate={status === 'sending' ? { x: [0, 8, 28], opacity: [1, 1, 0] } : { x: 0, opacity: 1 }} transition={status === 'sending' ? { duration: .85, repeat: Infinity, ease: 'easeIn' } : { duration: .2 }}>↗</motion.span>
+            </button>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function ContactChannelDock() {
   const dockRef = useRef(null);
 
@@ -339,7 +404,7 @@ export default function Home() {
           </motion.div>
         </Section>
 
-        <Section id="contact" title="Let's Connect" description="Have a project or engineering problem in mind? Choose a channel and reach out." backgroundVideo="/119290-717347154_medium.mp4">
+        <Section id="contact" title="Let's Connect" description="Have a project or engineering problem in mind? Choose a channel or send me a message." backgroundVideo="/119290-717347154_medium.mp4">
           <motion.div className="contact-console" variants={liftIn}>
             <div className="contact-console-heading">
               <span className="contact-console-kicker">CONTACT / HYDERABAD, INDIA</span>
@@ -347,6 +412,7 @@ export default function Home() {
               <p>I'm happy to talk about software engineering, full-stack development, and building dependable web platforms.</p>
             </div>
             <ContactChannelDock />
+            <ContactInquiry />
           </motion.div>
         </Section>
       </main>
