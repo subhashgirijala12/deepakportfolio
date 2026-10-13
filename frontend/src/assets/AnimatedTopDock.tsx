@@ -348,7 +348,24 @@ export function AnimatedTopDock({ className = "", ...props }: AnimatedTopDockPro
           {BRAND_MARK}
         </button>
         {items.map((item) => (
-          <a key={item.id} className="animated-top-dock__item animated-top-dock__link" data-dock-item href={`#${item.id}`} aria-current={active === item.id ? "location" : undefined} onClick={() => setActive(item.id)}>
+          <a
+            key={item.id}
+            className="animated-top-dock__item animated-top-dock__link"
+            data-dock-item
+            href={`#${item.id}`}
+            aria-current={active === item.id ? "location" : undefined}
+            onClick={(event) => {
+              const section = document.getElementById(item.id);
+              if (!section) return;
+              event.preventDefault();
+              window.history.pushState(null, "", `#${item.id}`);
+              section.scrollIntoView({
+                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+                block: "start",
+              });
+              setActive(item.id);
+            }}
+          >
             <span className="animated-top-dock__icon" aria-hidden="true"><svg viewBox="0 0 16 16">{item.icon}</svg></span>
             <span>{item.label}</span>
           </a>
