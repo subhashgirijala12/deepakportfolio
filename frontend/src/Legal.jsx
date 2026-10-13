@@ -17,8 +17,8 @@ const docs = {
     ['Changes', 'These terms may be revised. The date at the top of this page shows the latest update.'],
   ]},
   privacy: { title: 'Privacy Policy', intro: 'This site is a simple portfolio. Here is what happens to information when you visit or contact me.', sections: [
-    ['Information collected by this site', 'This site has no analytics or advertising trackers. If you use the contact form, the name, email, phone number, and message you choose to provide are sent to me by email through Resend. This site does not store contact form submissions in a database.'],
-    ['When you contact me', `I receive the contact details and message you choose to share so I can respond. Resend and the email provider may process that information to deliver the email under their own privacy practices. I do not sell it. You can also contact me directly at ${EMAIL}.`],
+    ['Information collected by this site', 'This site has no analytics or advertising trackers. If you use the contact form, the name, email, phone number, and message you choose to provide are sent to me by email through the contact service. This site does not store contact form submissions in a database.'],
+    ['When you contact me', `I receive the contact details and message you choose to share so I can respond. The email provider may process that information to deliver the email under its own privacy practices. I do not sell it. You can also contact me directly at ${EMAIL}.`],
     ['Hosting logs', 'The hosting provider may process standard technical information, such as IP address and browser type, for security and reliability. Its retention and use of server logs are governed by the provider’s policies.'],
     ['Cookies and browser storage', 'This site does not set cookies or store information in your browser.'],
     ['External links', 'If you choose to open LinkedIn or GitHub, those services may collect information under their own policies.'],
