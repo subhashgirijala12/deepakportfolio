@@ -26,7 +26,8 @@ The contact form sends its optional name, email, phone number, and message to th
 Deploy the frontend and backend as separate Vercel projects. Set the frontend project's **Root Directory** to `frontend`; set the backend project's **Root Directory** to `backend`.
 
 1. Deploy the backend project and set `RESEND_API_KEY`, `FRONTEND_URL` (the deployed frontend origin), `BACKEND_URL` (the deployed backend origin), and optionally `RESEND_FROM_EMAIL` / `RESEND_TO_EMAIL` in its Environment Variables.
-2. In the frontend project's Environment Variables, set `REACT_APP_BACKEND_URL` to the deployed backend origin. This is public configuration, not a secret.
-3. Redeploy both projects after saving the variables. Changes to `REACT_APP_BACKEND_URL` require a new frontend build.
+2. In the frontend project's Environment Variables, set `REACT_APP_BACKEND_URL` to the deployed backend origin, for example `https://your-backend.vercel.app` (no `/api/contact` suffix). This is public configuration, not a secret. Do not use `localhost` or the LAN IP in a deployed frontend.
+3. Redeploy both projects after saving the variables. Changes to `REACT_APP_BACKEND_URL` require a new frontend build because Create React App embeds it into the static JavaScript bundle.
+4. Open `https://your-backend.vercel.app/api/health` and confirm it returns `{"ok":true}`. Then submit the contact form from the deployed frontend. Set `FRONTEND_URL` to the exact frontend origin (scheme and host, no path); for multiple frontend domains, separate origins with commas.
 
 Do not put the Resend key in a `REACT_APP_` variable or commit either `.env` file. The frontend `.env.example` contains only the public backend URL. For production email, verify a sending domain in Resend and use an address on that domain for `RESEND_FROM_EMAIL`.

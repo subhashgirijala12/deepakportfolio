@@ -89,7 +89,11 @@ function ContactInquiry() {
     const form = event.currentTarget;
     const fields = Object.fromEntries(new FormData(form).entries());
     try {
-      const backendUrl = (process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001').replace(/\/$/, '');
+      const configuredBackendUrl = process.env.REACT_APP_BACKEND_URL?.trim();
+      const backendUrl = configuredBackendUrl || (process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : '');
+      if (!backendUrl) {
+        throw new Error('The contact form is not configured yet. Please email me directly.');
+      }
       const response = await fetch(`${backendUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
